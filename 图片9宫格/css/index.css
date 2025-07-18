@@ -18,15 +18,18 @@ body {
   transition: all 0.3s;
 }
 /* n 的有关问题见 问题img */
-.imgItem:nth-child(3n + 1) {
+.imgItem:nth-child(3n + 1) { 
+  /* 1,4,7 */
   left: -20px;
   background-position-x: 0;
 }
 .imgItem:nth-child(3n + 2) {
+  /* 2,5,8 */
   left: 0;
   background-position-x: -200px;
 }
 .imgItem:nth-child(3n) {
+  /* 3,6,9 */
   left: 20px;
   background-position-x: -400px;
 }
@@ -39,10 +42,12 @@ body {
   background-position-y: -400px;
 }
 .imgItem:nth-child(-n + 6) {
+  /* 6,5,4,3,2,1 */
   top: 0;
   background-position-y: -200px;
 }
 .imgItem:nth-child(-n + 3) {
+  /* 3,2,1 */
   top: -20px;
   background-position-y: 0;
 }

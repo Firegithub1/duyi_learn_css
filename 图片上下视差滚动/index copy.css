@@ -2,17 +2,20 @@
   margin: 0;
   padding: 0;
 }
+
 .scroll-container {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
   position: relative;
 }
+
 .item img {
   width: 100vw;
   height: 100vh;
   transition: all 2s;
 }
+
 /* 前后都高度为零，需要展示时设置高度为100vh */
 .prev,
 .next {
@@ -22,24 +25,29 @@
   overflow: hidden;
   transition: all 2s;
 }
+
 .prev {
   top: 0;
 }
-/* 将图片也搞得有点动效 */
-.prev img {
-  transform: translateY(-10%);
-}
+
 .next {
   bottom: 0;
-}
-.next img {
-  transform: translateY(10%);
 }
 
 .scroll-up .prev,
 .scroll-down .next {
   height: 100%;
 }
+
+/* 将图片也搞得有点动效 */
+.prev img {
+  transform: translateY(-10%);
+}
+
+.next img {
+  transform: translateY(10%);
+}
+
 .scroll-up .prev img,
 .scroll-down .next img {
   transform: translateY(0);
