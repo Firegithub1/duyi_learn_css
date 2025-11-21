@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *{
+      border: black 2px solid;
+    }
+    html{
+      border-color: transparent;
+      overflow: hidden;
+    }
+    body{
+      position: relative;
+      padding: 30px;
+      overflow: scroll;
+      background: #eee;
+      border-color: red;
+      background: #eee url(./post-detail_bg.png) no-repeat fixed left top / 100% 300px;
+    }
+    header{
+      position: sticky;
+      background: red;
+      width: 100px;
+      height: 100px;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+    }
+    .wrapper{
+      background: yellow;
+      width: 800px;
+      height: 800px;
+    }
+  
+    main{
+      background: blue;
+      width: 100px;
+      height: 100px;
+      margin-top: 150px;
+    }
+  </style>
+</head>
+<body>
+  <header></header>
+  <div class="wrapper">
+
+    <main></main>
+  </div>
+  <div style="height: 900px;width: 100px;background-color: coral;"></div>
+</body>
+</html>

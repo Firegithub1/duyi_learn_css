@@ -1,5 +1,5 @@
 const card = document.querySelector(".card");
-const yRange = [-10, 10];
+const range = 10;
 
 /**
  * @param {number} length 鼠标可移动的全长
@@ -8,16 +8,26 @@ const yRange = [-10, 10];
  * 通过 鼠标所在位置 比上 鼠标可移动的全长 === 返回值 比上 range取值范围
  * 为什么加range[0] 见 问题img
  */
-function getRotateDeg(length, value, range) {
-  return (value / length) * (range[1] - range[0]) + range[0];
+function getRotateDeg(length, value, range, isHorizontal = false) {
+  const semiLength = length / 2;
+  const calcSign = value - semiLength
+  let sign = calcSign  > 0 ? -1 : 1;
+  if(isHorizontal) sign *= -1;
+  const deg = Math.abs((value - semiLength)) / semiLength * range;
+  return sign * deg;
+  
+  // let deg = (value - semiLength) / semiLength * range;
+  // if(isHorizontal) return -deg;
+  // return deg
 }
 
 card.addEventListener("mousemove", (e) => {
   const { offsetX, offsetY } = e;
   const { offsetWidth, offsetHeight } = card;
+  console.log('offsetX,offsetY :>> ', offsetX,offsetY);
   // x 轴旋转靠的是 鼠标的y
-  let rx = getRotateDeg(offsetWidth, offsetY, yRange);
-  let ry = -getRotateDeg(offsetHeight, offsetX, yRange);
+  let rx = getRotateDeg(offsetWidth, offsetY, range); 
+  let ry = getRotateDeg(offsetHeight, offsetX, range, true);
   card.style.setProperty("--rx", `${rx}deg`);
   card.style.setProperty("--ry", `${ry}deg`);
 });
