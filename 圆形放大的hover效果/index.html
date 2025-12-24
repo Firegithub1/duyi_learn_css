@@ -11,7 +11,7 @@
         height: 200px;
         border-radius: 50%;
         position: relative;
-        background-image: url(./img/2.jpg);
+        /* background-image: url(./img/2.jpg); */
         background-size: 100%;
       }
       .card::before,
@@ -28,9 +28,10 @@
       }
       .card::after {
         /* 继承父元素的背景图 */
-        background: inherit;
-        clip-path: circle(0% at 50% 50%);
-        transition: all 0.3s;
+        /* background: inherit; */
+        background: url(./img/2.jpg);
+        clip-path: circle(40% at 60% 50%);
+        transition: all 1.3s;
       }
       /* 书写顺序不能反 见 问题img */
       .card:hover::after {
