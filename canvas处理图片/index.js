@@ -1,75 +1,95 @@
-const canvas = document.querySelector(".canvas");
-// 需要频繁读取像素点就要加上 willReadFrequently
-const ctx = canvas.getContext("2d", {
+/** @type {HTMLCanvasElement} */
+const canvas = document.querySelector('.canvas')
+
+/** @type {CanvasRenderingContext2D} */
+let ctx = canvas.getContext('2d', {
   willReadFrequently: true,
-});
+})
 
-// 在canvas上画一个图片 --> 需要用live server打开，不然跨域
-const img = new Image();
-img.src = "./img/1.png";
+const img = new Image()
+img.src = './img/home_role.png'
 img.onload = function () {
-  // 设置canvas的宽度和高度
-  canvas.width = img.width;
-  canvas.height = img.height;
-  // 在canvas上画图片
-  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-};
+  // img.onLoad = () => {
+  canvas.width = img.width
+  canvas.height = img.height
+  console.log('img :>> ', img)
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+}
 
-// 监听点击事件
-canvas.addEventListener("click", function (e) {
-  const x = e.offsetX;
-  const y = e.offsetY;
-  // 获取imgdata
-  const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  // 获取图片点击地方的rgba值
-  const clickColor = getRgba(x, y, imgData);
-  const changeColor = [0, 255, 0, 255];
-  // 辅助函数，改变点击位置的rgba值
-  function _changeColor(x, y) {
-    // 超过边界停止
-    if (x < 0 || x >= canvas.width || y < 0 || y >= canvas.height) return;
-    // 如果旁边的颜色相差太大停止
-    const color = getRgba(x, y, imgData);
-    if (diffColor(color, clickColor) > 100) return;
-    // 如果旁边颜色已经是changeColor停止
-    if (diffColor(color, changeColor) === 0) return;
-    const index = point2Index(x, y);
-    // 简写：从index开始，替换四个值
-    imgData.data.set(changeColor, index);
-    // 改变周围颜色
-    _changeColor(x - 1, y);
-    _changeColor(x + 1, y);
-    _changeColor(x, y - 1);
-    _changeColor(x, y + 1);
+
+canvas.addEventListener('click', (e) => {
+  let x = e.offsetX
+  let y = e.offsetY
+  const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+  const clickRgba = getRgba(x, y, imgData)
+  let changeColor = [0, 255, 0, 255]
+  let account = 1
+
+  function _changeColor(x, y){
+    account++
+    if(account > 5000) return
+    // 边缘判断
+    let xEdge = x < 0 || x >= canvas.width
+    let yEdge = y < 0 || y >= canvas.height
+    if(xEdge || yEdge) return
+
+    // 色差比较
+    let curRgba = getRgba(x, y, imgData)
+    // console.log('RGBA, rgbaNext :>> ', clickRgba, curRgba);
+    let diffSide = diffColor(clickRgba, curRgba)
+    // console.log('diffSide :>> ', diffSide);
+    if(diffSide > 100) return
+
+    let diffChange = diffColor(clickRgba, changeColor, 'change')
+    if(!diffChange) return
+
+    let idxChange = (x + y * canvas.width) * 4
+    imgData.data.set(changeColor, idxChange)
+
+    _changeColor(x, y + 1)
+    _changeColor(x, y - 1)
+    _changeColor(x - 1, y)
+    _changeColor(x + 1, y)
   }
-  _changeColor(x, y);
-  // 改变图片
-  ctx.putImageData(imgData, 0, 0);
-});
 
-// 点击处的 x,y 和 imgdata 的 index 的对应关系
-function point2Index(x, y) {
-  return (x + y * canvas.width) * 4;
+  _changeColor(x, y)
+  ctx.putImageData(imgData, 0, 0)
+  account = 1
+})
+
+function point2Index (x, y) {
+  return (x + y * canvas.width) * 4
 }
 
-// 获取图片点击地方的rgba值
-function getRgba(x, y, imgData) {
-  const index = point2Index(x, y);
+
+function getRgba (x, y, imgData) {
+  let idx = point2Index(x, y)
+  // console.log('point2Index :>> ', point2Index);
+  // console.log('imgData :>> ', imgData);
   return {
-    r: imgData.data[index],
-    g: imgData.data[index + 1],
-    b: imgData.data[index + 2],
-    a: imgData.data[index + 3],
-  };
+    R: imgData.data[idx],
+    G: imgData.data[idx + 1],
+    B: imgData.data[idx + 2],
+    A: imgData.data[idx + 3],
+  }
 }
 
-// 判断两个rgba颜色是否相同
-function diffColor(rgba1, rgba2) {
-  // 返回 > 0 表示不相同
-  return (
-    Math.abs(rgba1.r - rgba2.r) +
-    Math.abs(rgba1.g - rgba2.g) +
-    Math.abs(rgba1.b - rgba2.b) +
-    Math.abs(rgba1.a - rgba2.a)
-  );
+const diffColor = (rgba, rgbaNext, type) => {
+  let keys = Object.keys(rgba)
+  if (type) {
+    rgbaNext = {
+      R: 0,
+      G: 255,
+      B: 0,
+      A: 255,
+    }
+  }
+  let diff = keys.reduce((result, item) => {
+    // console.log('result :>> ', result);
+    result += Math.abs(rgba[item] - rgbaNext[item])
+    // console.log('item :>> ', item, rgba[item]);
+    // console.log('result :>> ', result);
+    return result
+  }, 0)
+  return diff
 }
