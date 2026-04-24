@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .br {
+        border: 1px solid coral;
+      }
+      .wrap {
+        margin-left: 100px;
+        margin-top: 100px;
+        width: 500px;
+        height: 500px;
+        display: flex;
+        border-color: lightblue;
+        /* position: relative; */
+      }
+
+      .box1 {
+        border-color: lightgreen;
+        position: absolute;
+        left: 0;
+        top: -100px;
+        width: 300px;
+        height: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap br">
+      <div class="box1 br">
+        <div class="box2 br"></div>
+      </div>
+    </div>
+  </body>
+</html>
