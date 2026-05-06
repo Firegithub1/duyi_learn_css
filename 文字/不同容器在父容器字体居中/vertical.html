@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .br {
+        border: 1px solid red;
+      }
+      .box {
+        margin-top: 300px;
+        margin-left: 300px;
+        width: 500px;
+        height: 300px;
+      }
+      .flex {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .child1 {
+        width: 50px;
+        /* height: 40px; */
+        border-color: blue;
+      }
+      .child2 {
+        width: 50px;
+        height: 80px;
+        font-size: 36px;
+        border-color: green;
+        vertical-align: middle;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box br flex">
+      <div class="child1 br">child1</div>
+      <span class="child2 br">child2</span>
+    </div>
+  </body>
+</html>
